@@ -3,10 +3,13 @@ package com.example.codingchallenge.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codingchallenge.R
 import com.example.codingchallenge.model.Article
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
@@ -24,10 +27,15 @@ class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<Ne
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = articles[position]
-        /*Picasso.get()
-            .load(item.image)
-            .transform(CropCircleTransformation())
-            .into(holder.view.findViewById<ImageView>(R.id.articleImage))*/
+        if (item.imageUrl == null) {
+            val articleImage = holder.view.findViewById<ImageView>(R.id.articleImage)
+            articleImage.visibility = View.GONE
+        } else {
+            Picasso.get()
+                .load(item.imageUrl)
+                .transform(CropCircleTransformation())
+                .into(holder.view.findViewById<ImageView>(R.id.articleImage))
+        }
         holder.view.findViewById<TextView>(R.id.articleTitle).text = item.title
     }
 }

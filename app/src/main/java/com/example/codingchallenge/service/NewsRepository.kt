@@ -5,7 +5,7 @@ import com.example.codingchallenge.model.NewsResponse
 
 object NewsRepository {
     private const val SERVICE_URL = "https://newsapi.org/v2/"
-    private const val SERVICE_COUNTRY = "de"
+    private const val SERVICE_COUNTRY = "us"
     private const val SERVICE_KEY = BuildConfig.newsApiKey
 
     private val client = NetworkClient(SERVICE_URL)

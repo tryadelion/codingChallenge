@@ -5,5 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Article(
-    @JsonProperty("title") val title: String
+    @JsonProperty("title") val title: String,
+    @JsonProperty("urlToImage") val imageUrl: String?
 )
