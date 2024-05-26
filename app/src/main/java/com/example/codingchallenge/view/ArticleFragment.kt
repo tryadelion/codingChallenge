@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.codingchallenge.R
 import com.example.codingchallenge.databinding.FragmentArticleBinding
+import com.example.codingchallenge.extension.formatted
 import com.example.codingchallenge.model.Article
 import com.squareup.picasso.Picasso
 
@@ -25,6 +26,8 @@ class ArticleFragment : Fragment() {
     private var _article: Article? = null
     private lateinit var articleImage: ImageView
     private lateinit var articleTitle: TextView
+    private lateinit var articleAuthor: TextView
+    private lateinit var articleDate: TextView
     private lateinit var articleDescription: TextView
     private lateinit var articleButton: Button
 
@@ -53,7 +56,8 @@ class ArticleFragment : Fragment() {
         } else {
             articleTitle.text = _article!!.title
             articleDescription.text = _article!!.description
-
+            articleAuthor.text = _article!!.author
+            articleDate.text = _article!!.publishedAt?.formatted("HH:mm")
             if (_article!!.imageUrl != null) {
                 Picasso.get()
                     .load(_article!!.imageUrl)
@@ -71,6 +75,8 @@ class ArticleFragment : Fragment() {
     private fun setupViews(view: View) {
         articleImage = view.findViewById(R.id.articleImage)
         articleTitle = view.findViewById(R.id.articleTitle)
+        articleAuthor = view.findViewById(R.id.articleAuthor)
+        articleDate = view.findViewById(R.id.articleDate)
         articleDescription = view.findViewById(R.id.articleDescription)
         articleButton = view.findViewById(R.id.openArticleButton)
     }
