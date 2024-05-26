@@ -24,12 +24,6 @@ class ArticleFragment : Fragment() {
 
     private var _binding: FragmentArticleBinding? = null
     private var _article: Article? = null
-    private lateinit var articleImage: ImageView
-    private lateinit var articleTitle: TextView
-    private lateinit var articleAuthor: TextView
-    private lateinit var articleDate: TextView
-    private lateinit var articleDescription: TextView
-    private lateinit var articleButton: Button
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,7 +40,6 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews(view)
         populateArticle()
     }
 
@@ -54,31 +47,21 @@ class ArticleFragment : Fragment() {
         if (_article == null) {
             findNavController().popBackStack()
         } else {
-            articleTitle.text = _article!!.title
-            articleDescription.text = _article!!.description
-            articleAuthor.text = _article!!.author
-            articleDate.text = _article!!.publishedAt?.formatted("HH:mm")
+            binding.articleTitle.text = _article!!.title
+            binding.articleDescription.text = _article!!.description
+            binding.articleAuthor.text = _article!!.author
+            binding.articleDate.text = _article!!.publishedAt?.formatted("HH:mm")
             if (_article!!.imageUrl != null) {
                 Picasso.get()
                     .load(_article!!.imageUrl)
-                    .into(articleImage)
+                    .into(binding.articleImage)
             } else {
-                articleImage.visibility = View.GONE
+                binding.articleImage.visibility = View.GONE
             }
-
-            articleButton.setOnClickListener {
+            binding.openArticleButton.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(_article!!.url)))
             }
         }
-    }
-
-    private fun setupViews(view: View) {
-        articleImage = view.findViewById(R.id.articleImage)
-        articleTitle = view.findViewById(R.id.articleTitle)
-        articleAuthor = view.findViewById(R.id.articleAuthor)
-        articleDate = view.findViewById(R.id.articleDate)
-        articleDescription = view.findViewById(R.id.articleDescription)
-        articleButton = view.findViewById(R.id.openArticleButton)
     }
 
     override fun onDestroyView() {

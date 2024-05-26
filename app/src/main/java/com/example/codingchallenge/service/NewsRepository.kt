@@ -11,11 +11,11 @@ object NewsRepository {
     private val client = NetworkClient(SERVICE_URL)
     private val newsAPI = client.getClient().create(NewsAPI::class.java)
 
-    suspend fun getHeadlines(): NewsResponse? {
+    suspend fun getHeadlines(withKeyWord: String? = null): NewsResponse? {
         val response = newsAPI
             .getHeadlines(
                 apikey = SERVICE_KEY,
-                country = SERVICE_COUNTRY)
+                country = withKeyWord ?: SERVICE_COUNTRY)
         val successful = response.isSuccessful
         val httpStatusCode = response.code()
         val httpStatusMessage = response.message()

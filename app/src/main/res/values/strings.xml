@@ -6,4 +6,5 @@
     <string name="articleImageDescription">News article header image</string>
     <string name="open_article_website">open the article website</string>
     <string name="article_fragment_label">News Article</string>
+    <string name="voice_recognition_button">Voice recognition button</string>
 </resources>

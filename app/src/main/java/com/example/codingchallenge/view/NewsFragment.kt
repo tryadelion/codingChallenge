@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.codingchallenge.MainActivity
 import com.example.codingchallenge.R
 import com.example.codingchallenge.databinding.FragmentNewsBinding
 import com.example.codingchallenge.model.Article
+import com.example.codingchallenge.utils.SpeechRecognitionUtils
 import com.example.codingchallenge.view.adapter.NewsAdapter
 import com.example.codingchallenge.viewmodel.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -22,10 +23,11 @@ import kotlinx.coroutines.withContext
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener {
+class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener,
+    SpeechRecognitionUtils.VoiceRequestListener {
 
     private var _binding: FragmentNewsBinding? = null
-    private var _recyclerView: RecyclerView? = null
+    private var headlineCountryCode: String = "us"
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -41,30 +43,37 @@ class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews(view)
+        setupViews()
         fetchNews()
+        (activity as MainActivity).setVoiceRequestListener(this)
     }
 
     private fun fetchNews() {
         CoroutineScope(Dispatchers.IO).launch {
-            val headlines = newsViewModel.getHeadlines()
-            headlines?.let {
-                if (it.isNotEmpty()) {
-                    withContext(Dispatchers.Main) {
-                        _recyclerView?.adapter = NewsAdapter(it, this@NewsFragment)
+            withContext(Dispatchers.Main) {
+                binding.newsProgressBar.visibility = View.VISIBLE
+                binding.newsProgressBar.isIndeterminate = true
+            }
+            val headlines = newsViewModel.getHeadlines(headlineCountryCode)
+            withContext(Dispatchers.Main) {
+                binding.newsProgressBar.visibility = View.GONE
+                binding.newsProgressBar.isIndeterminate = false
+                headlines?.let {
+                    if (it.isNotEmpty()) {
+                        binding.recyclerView.adapter = NewsAdapter(it, this@NewsFragment)
                     }
                 }
             }
         }
     }
 
-    private fun setupViews(view: View) {
-        _recyclerView =  view.findViewById(R.id.recycler_view)
-        _recyclerView?.adapter = NewsAdapter(listOf(), this)
-        _recyclerView?.layoutManager = LinearLayoutManager(context)
+    private fun setupViews() {
+        binding.recyclerView.adapter = NewsAdapter(listOf(), this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onDestroyView() {
+        (activity as MainActivity).setVoiceRequestListener(null)
         super.onDestroyView()
         _binding = null
     }
@@ -73,5 +82,26 @@ class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener {
         val bundle = bundleOf("article" to item)
         //TODO - add a shared animation between the imageViews.
         findNavController().navigate(R.id.action_NewsFragment_to_ArticleFragment, bundle)
+    }
+
+    override fun onNewVoiceCommand(command: String) {
+        //TODO - more command options, combinations, keyword-based parameters
+        when (command) {
+            "refresh", "reload" -> {
+                fetchNews()
+            }
+            "united states" -> {
+                headlineCountryCode = "us"
+                fetchNews()
+            }
+            "germany" -> {
+                headlineCountryCode = "de"
+                fetchNews()
+            }
+            "france" -> {
+                headlineCountryCode = "fr"
+                fetchNews()
+            }
+        }
     }
 }
