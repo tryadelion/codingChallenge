@@ -71,6 +71,7 @@ class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener {
 
     override fun onNewsItemClicked(item: Article) {
         val bundle = bundleOf("article" to item)
+        //TODO - add a shared animation between the imageViews.
         findNavController().navigate(R.id.action_NewsFragment_to_ArticleFragment, bundle)
     }
 }

@@ -30,8 +30,10 @@ class NewsAdapter(private val articles: List<Article>, private val listener: New
         val articleImage = holder.view.findViewById<ImageView>(R.id.articleImage)
         val articleTitle = holder.view.findViewById<TextView>(R.id.articleTitle)
         val articleDate = holder.view.findViewById<TextView>(R.id.articleDate)
+        val articleSource = holder.view.findViewById<TextView>(R.id.articleSource)
 
         if (item.imageUrl == null) {
+            //TODO - add a placeholder image instead of hiding the view
             articleImage.visibility = View.GONE
         } else {
             Picasso.get()
@@ -39,6 +41,7 @@ class NewsAdapter(private val articles: List<Article>, private val listener: New
                 .transform(CropCircleTransformation())
                 .into(articleImage)
         }
+        articleSource.text = item.source.name
         articleTitle.text = item.title
         if (item.publishedAt != null) {
             articleDate.text = item.publishedAt.formatted("HH:mm")
