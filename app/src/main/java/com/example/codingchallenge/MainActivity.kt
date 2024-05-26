@@ -9,6 +9,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.example.codingchallenge.databinding.ActivityMainBinding
 import com.example.codingchallenge.service.NewsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +42,16 @@ class MainActivity : AppCompatActivity() {
                 NewsRepository.getHeadlines()
             }
         }
+        navController.addOnDestinationChangedListener( listener = { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.ArticleFragment -> {
+                    binding.fab.visibility = View.GONE
+                }
+                R.id.NewsFragment -> {
+                    binding.fab.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

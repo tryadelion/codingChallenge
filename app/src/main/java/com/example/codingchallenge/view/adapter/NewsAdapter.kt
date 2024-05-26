@@ -1,4 +1,4 @@
-package com.example.codingchallenge.view
+package com.example.codingchallenge.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codingchallenge.R
+import com.example.codingchallenge.extension.formatted
 import com.example.codingchallenge.model.Article
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
-class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-
+class NewsAdapter(private val articles: List<Article>, private val listener: NewsItemClickListener) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,15 +27,28 @@ class NewsAdapter(private val articles: List<Article>) : RecyclerView.Adapter<Ne
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = articles[position]
+        val articleImage = holder.view.findViewById<ImageView>(R.id.articleImage)
+        val articleTitle = holder.view.findViewById<TextView>(R.id.articleTitle)
+        val articleDate = holder.view.findViewById<TextView>(R.id.articleDate)
+
         if (item.imageUrl == null) {
-            val articleImage = holder.view.findViewById<ImageView>(R.id.articleImage)
             articleImage.visibility = View.GONE
         } else {
             Picasso.get()
                 .load(item.imageUrl)
                 .transform(CropCircleTransformation())
-                .into(holder.view.findViewById<ImageView>(R.id.articleImage))
+                .into(articleImage)
         }
-        holder.view.findViewById<TextView>(R.id.articleTitle).text = item.title
+        articleTitle.text = item.title
+        if (item.publishedAt != null) {
+            articleDate.text = item.publishedAt.formatted("HH:mm")
+        }
+        holder.view.setOnClickListener {
+            listener.onNewsItemClicked(item)
+        }
+    }
+
+    interface NewsItemClickListener {
+        fun onNewsItemClicked(item: Article)
     }
 }

@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="news_fragment_label">Top Headlines</string>
+    <string name="articleImageDescription">News article header image</string>
+    <string name="open_article_website">open the article website</string>
+    <string name="article_fragment_label">News Article</string>
 </resources>
