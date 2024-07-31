@@ -3,25 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/NewsFragment">
+    app:startDestination="@id/ProductsFragment">
 
     <fragment
-        android:id="@+id/NewsFragment"
-        android:name="com.example.codingchallenge.view.NewsFragment"
-        android:label="@string/news_fragment_label"
-        tools:layout="@layout/fragment_news">
-
-        <action
-            android:id="@+id/action_NewsFragment_to_ArticleFragment"
-            app:destination="@id/ArticleFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/ArticleFragment"
-        android:name="com.example.codingchallenge.view.ArticleFragment"
-        android:label="@string/article_fragment_label"
-        tools:layout="@layout/fragment_article">
-        <argument
-            android:name="article"
-            app:argType="com.example.codingchallenge.model.Article" />
+        android:id="@+id/ProductsFragment"
+        android:name="com.example.codingchallenge.view.ProductsFragment"
+        android:label="@string/products_fragment_label"
+        tools:layout="@layout/fragment_products">
     </fragment>
 </navigation>

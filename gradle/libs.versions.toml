@@ -26,8 +26,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 coroutines-core = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso"}
-picasso-transformations = { group = "jp.wasabeef", name = "picasso-transformations", version.ref = "picassoTransformations"}
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref= "retrofit" }
 retrofit-converter-jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref= "retrofit" }
 

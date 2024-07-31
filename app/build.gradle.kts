@@ -15,7 +15,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "newsApiKey", properties["newsApiKey"].toString())
     }
 
     buildTypes {
@@ -48,8 +47,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.coroutines.core)
     implementation(libs.material)
-    implementation(libs.picasso)
-    implementation(libs.picasso.transformations)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.jackson)
 
