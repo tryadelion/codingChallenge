@@ -15,6 +15,7 @@ import com.example.codingchallenge.model.Article
 import com.example.codingchallenge.utils.SpeechRecognitionUtils
 import com.example.codingchallenge.view.adapter.NewsAdapter
 import com.example.codingchallenge.viewmodel.NewsViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,7 +50,12 @@ class NewsFragment : Fragment(), NewsAdapter.NewsItemClickListener,
     }
 
     private fun fetchNews() {
-        CoroutineScope(Dispatchers.IO).launch {
+        val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+            println("ERROR found while fetching")
+            throwable.printStackTrace()
+        }
+
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             withContext(Dispatchers.Main) {
                 binding.newsProgressBar.visibility = View.VISIBLE
                 binding.newsProgressBar.isIndeterminate = true

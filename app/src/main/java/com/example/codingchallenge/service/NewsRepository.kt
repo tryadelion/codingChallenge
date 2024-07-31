@@ -21,5 +21,6 @@ object NewsRepository {
         val httpStatusMessage = response.message()
         println("$successful - $httpStatusCode - $httpStatusMessage")
         return response.body()
+        return null
     }
 }
